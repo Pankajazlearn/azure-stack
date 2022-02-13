@@ -1,70 +1,48 @@
-# Terraform code to deploy three-tier architecture on azure
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-## What is three-tier architecture?
-Three-tier architecture is a well-established software application architecture that organizes applications into three logical and physical computing tiers: the presentation tier, or user interface; the application tier, where data is processed; and the data tier, where the data associated with the application is stored and managed.
+No requirements.
 
-## What is terraform?
-Terraform is an open-source infrastructure as code software tool created by HashiCorp. Users define and provision data center infrastructure using a declarative configuration language known as HashiCorp Configuration Language, or optionally JSON.
+## Providers
 
-## Installation
-- [Terraform](https://www.terraform.io/downloads.html)
+No providers.
 
-## Problem Statement
+## Modules
 
-1. One virtual network tied in three subnets.
-2. Each subnet will have one virtual machine.
-3. First virtual machine -> allow inbound traffic from internet only.
-4. Second virtual machine -> entertain traffic from first virtual machine only and can reply the same virtual machine again.
-5. App can connect to database and database can connect to app but database cannot connect to web.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_compute"></a> [compute](#module\_compute) | ./modules/compute | n/a |
+| <a name="module_database"></a> [database](#module\_database) | ./modules/database | n/a |
+| <a name="module_networking"></a> [networking](#module\_networking) | ./modules/networking | n/a |
+| <a name="module_resourcegroup"></a> [resourcegroup](#module\_resourcegroup) | ./modules/resourcegroup | n/a |
+| <a name="module_securitygroup"></a> [securitygroup](#module\_securitygroup) | ./modules/securitygroup | n/a |
 
-_Note: Keep main and variable files different for each component_
+## Resources
 
-## Solution
+No resources.
 
-### The Terraform resources will consists of following structure
+## Inputs
 
-```
-├── main.tf                   // The primary entrypoint for terraform resources.
-├── vars.tf                   // It contain the declarations for variables.
-├── output.tf                 // It contain the declarations for outputs.
-├── terraform.tfvars          // The file to pass the terraform variables values.
-```
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_app_host_name"></a> [app\_host\_name](#input\_app\_host\_name) | n/a | `any` | n/a | yes |
+| <a name="input_app_os_password"></a> [app\_os\_password](#input\_app\_os\_password) | n/a | `any` | n/a | yes |
+| <a name="input_app_username"></a> [app\_username](#input\_app\_username) | n/a | `any` | n/a | yes |
+| <a name="input_appsubnetcidr"></a> [appsubnetcidr](#input\_appsubnetcidr) | n/a | `any` | n/a | yes |
+| <a name="input_dbsubnetcidr"></a> [dbsubnetcidr](#input\_dbsubnetcidr) | n/a | `any` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | n/a | `any` | n/a | yes |
+| <a name="input_primary_database"></a> [primary\_database](#input\_primary\_database) | n/a | `any` | n/a | yes |
+| <a name="input_primary_database_admin"></a> [primary\_database\_admin](#input\_primary\_database\_admin) | n/a | `any` | n/a | yes |
+| <a name="input_primary_database_password"></a> [primary\_database\_password](#input\_primary\_database\_password) | n/a | `any` | n/a | yes |
+| <a name="input_primary_database_version"></a> [primary\_database\_version](#input\_primary\_database\_version) | n/a | `any` | n/a | yes |
+| <a name="input_vnetcidr"></a> [vnetcidr](#input\_vnetcidr) | n/a | `any` | n/a | yes |
+| <a name="input_web_host_name"></a> [web\_host\_name](#input\_web\_host\_name) | n/a | `any` | n/a | yes |
+| <a name="input_web_os_password"></a> [web\_os\_password](#input\_web\_os\_password) | n/a | `any` | n/a | yes |
+| <a name="input_web_username"></a> [web\_username](#input\_web\_username) | n/a | `any` | n/a | yes |
+| <a name="input_websubnetcidr"></a> [websubnetcidr](#input\_websubnetcidr) | n/a | `any` | n/a | yes |
 
-### Module
+## Outputs
 
-A module is a container for multiple resources that are used together. Modules can be used to create lightweight abstractions, so that you can describe your infrastructure in terms of its architecture, rather than directly in terms of physical objects.
-
-For the solution, we have created and used five modules:
-1. resourcegroup - creating resourcegroup
-2. networking - creating azure virtual network and required subnets
-3. securitygroup - creating network security group, setting desired security rules and associating them to subnets
-4. compute - creating availability sets, network interfaces and virtual machines
-5. database - creating database server and database
-
-All the stacks are placed in the modules folder and the variable are stored under **terraform.tfvars**
-
-To run the code you need to append the variables in the terraform.tfvars
-
-Each module consists minimum two files: main.tf, vars.tf
-
-resourcegroup and networking modules consists of one extra file named output.tf
-
-## Deployment
-
-### Steps
-
-**Step 0** `terraform init`
-
-used to initialize a working directory containing Terraform configuration files
-
-**Step 1** `terraform plan`
-
-used to create an execution plan
-
-**Step 2** `terraform validate`
-
-validates the configuration files in a directory, referring only to the configuration and not accessing any remote services such as remote state, provider APIs, etc
-
-**Step 3** `terraform apply`
-
-used to apply the changes required to reach the desired state of the configuration
+No outputs.
+<!-- END_TF_DOCS -->
